@@ -37,7 +37,7 @@ In all the functions below:
 
 ### Dict
 
-An object containing values of type V.
+An object containing values of type `V`.
 
 ``` ts
 type Dict<V> = {[key: string]: V};
