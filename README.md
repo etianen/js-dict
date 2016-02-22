@@ -9,7 +9,7 @@ Helpers for treating dicts as maps.
 npm install '@etianen/dict'
 ```
 
-**Typescript:** To take advantage of typings, be sure to set `moduleResolution` to `"node"` in your `tsconfig.json`.
+**TypeScript:** To take advantage of typings, be sure to set `moduleResolution` to `"node"` in your `tsconfig.json`.
 
 
 ## Overview
