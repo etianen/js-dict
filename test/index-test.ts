@@ -24,6 +24,10 @@ describe("dict", () => {
 
     describe("every", () => {
 
+        it("returns true for an empty dict", () => {
+            expect(every({}, () => false)).to.be.true;
+        });
+
         it("checks if every value passes a predicate", () => {
             expect(every(
                 foo,
@@ -236,6 +240,10 @@ describe("dict", () => {
     });
 
     describe("some", () => {
+
+        it("returns false for an empty dict", () => {
+            expect(some({}, () => true)).to.be.false;
+        });
 
         it("checks if at least one value passes a predicate", () => {
             expect(some(
