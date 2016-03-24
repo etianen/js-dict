@@ -153,6 +153,12 @@ export function reduce<V, R>(dict: Dict<V>, reducer: (reduction?: R, value?: V, 
     return result;
 }
 
+export function remove<V>(dict: Dict<V>, key: string): Dict<V> {
+    const result: Dict<V> = Object.assign({}, dict);
+    delete result[key];
+    return result;
+}
+
 export function set<V>(dict: Dict<V>, key: string, value: V): Dict<V> {
     const result: Dict<V> = Object.assign({}, dict);
     result[key] = value;

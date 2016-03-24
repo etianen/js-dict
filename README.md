@@ -182,6 +182,15 @@ function reduce<V, R>(dict: Dict<V>, reducer: (reduction?: R, value?: V, key?: s
 ```
 
 
+### remove()
+
+Returns a new dict with `key` removed.
+
+``` ts
+function remove<V>(dict: Dict<V>, key: string): Dict<V>;
+```
+
+
 ### set()
 
 Returns a new dict with `key` set to `value`.
