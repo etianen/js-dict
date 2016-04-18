@@ -174,6 +174,10 @@ export function some<V>(dict: Dict<V>, predicate: ValueCallback<V, boolean>, con
     return false;
 };
 
+export function update<V>(dict: Dict<V>, other: Dict<V>): Dict<V> {
+    return Object.assign({}, dict, other);
+}
+
 export function values<V>(dict: Dict<V>): Array<V> {
     let result: Array<V> = [];
     for (const key in dict) {

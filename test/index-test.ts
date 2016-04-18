@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {Dict, count, entries, every, filter, forEach, from, get, has, isEmpty, keys, map, mapValues, mapEntries, mapKeys, reduce, remove, set, some, values} from "../lib/index";
+import {Dict, count, entries, every, filter, forEach, from, get, has, isEmpty, keys, map, mapValues, mapEntries, mapKeys, reduce, remove, set, some, update, values} from "../lib/index";
 
 
 describe("dict", () => {
@@ -268,6 +268,14 @@ describe("dict", () => {
             expect(some({foo: 1, bar: 2}, value => value >= 1)).to.be.true;
             expect(some({foo: 1, bar: 2}, value => value < 2)).to.be.true;
             expect(some({foo: 1, bar: 2}, value => value < 1)).to.be.false;
+        });
+
+    });
+
+    describe("update", () => {
+
+        it("returns a new dict with values updated", () => {
+            expect(update({foo: 2, bar: 2}, foo)).to.eql({foo: 1, bar: 2});
         });
 
     });

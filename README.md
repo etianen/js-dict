@@ -209,6 +209,15 @@ function some<V>(dict: Dict<V>, predicate: (value?: V, key?: string, dict?: Dict
 ```
 
 
+### update()
+
+Returns a copy of `dict` updated with all entries in `other`.
+
+``` ts
+function update<V>(dict: Dict<V>, other: Dict<V>): Dict<V>;
+```
+
+
 ### values()
 
 Returns an `Array` of all values in `dict`.
