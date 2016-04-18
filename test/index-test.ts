@@ -103,9 +103,11 @@ describe("dict", () => {
         it("creates a dict from an array of keys", () => {
             expect(dict.fromKeys(
                 ["foo"],
-                function(key: string) {
+                function(key: string, index: number, array: Array<string>) {
                     expect(this).to.equal("bar");
                     expect(key).to.equal("foo");
+                    expect(index).to.equal(0);
+                    expect(array).to.eql(["foo"]);
                     return key + "bar";
                 },
                 "bar"

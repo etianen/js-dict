@@ -114,7 +114,7 @@ function fromEntries<V>(entries: Array<[string, V]>): Dict<V>;
 Creates a new dict from an array of keys, obtaining the values by passing each key through `mapper`.
 
 ``` ts
-function fromKeys<V>(keys: Array<string>, mapper: (key?: string) => V, context?: Object): Dict<V>
+function fromKeys<V>(keys: Array<string>, mapper: (key?: string, index?: number, array?: Array<string>) => V, context?: Object): Dict<V>
 ```
 
 

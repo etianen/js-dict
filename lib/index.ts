@@ -70,10 +70,10 @@ export function fromEntries<V>(entries: Array<Entry<V>>): Dict<V> {
     return result;
 }
 
-export function fromKeys<V>(keys: Array<string>, mapper: (key?: string) => V, context?: Object): Dict<V> {
+export function fromKeys<V>(keys: Array<string>, mapper: (key?: string, index?: number, array?: Array<string>) => V, context?: Object): Dict<V> {
     const result: Dict<V> = {};
-    for (const key of keys) {
-        result[key] = mapper.call(context, key);
+    for (let n = 0, len = keys.length; n < len; n++) {
+        result[keys[n]] = mapper.call(context, keys[n], n, keys);
     }
     return result;
 }
