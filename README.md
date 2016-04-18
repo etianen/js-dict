@@ -55,6 +55,15 @@ function count(dict: Dict<Object>): number;
 ```
 
 
+### empty()
+
+Returns a new empty `dict`.
+
+``` ts
+function empty<V>(): Dict<V>;
+```
+
+
 ### entries()
 
 Returns an `Array` of `[key, value]` entries in `dict`.

@@ -19,6 +19,12 @@ export function count(dict: Dict<Object>): number {
     return n;
 }
 
+
+export function empty<V>(): Dict<V> {
+    return {};
+}
+
+
 export function entries<V>(dict: Dict<V>): Array<Entry<V>> {
     let result: Array<Entry<V>> = [];
     for (const key in dict) {

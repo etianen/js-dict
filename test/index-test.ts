@@ -14,6 +14,14 @@ describe("dict", () => {
 
     });
 
+    describe("empty", () => {
+
+        it("returns an empty dict", () => {
+            expect(dict.empty()).to.eql({});
+        });
+
+    });
+
     describe("entries", () => {
 
         it("returns an array of entries", () => {
