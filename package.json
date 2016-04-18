@@ -1,6 +1,6 @@
 {
   "name": "@etianen/dict",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Helpers for treating objects as maps.",
   "main": "./lib/index.js",
   "scripts": {
