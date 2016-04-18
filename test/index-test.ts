@@ -82,10 +82,10 @@ describe("dict", () => {
 
     });
 
-    describe("from", () => {
+    describe("fromEntries", () => {
 
         it("creates a dict from an array of entries", () => {
-            expect(dict.from([["foo", 1]])).to.eql(foo);
+            expect(dict.fromEntries([["foo", 1]])).to.eql(foo);
         });
 
     });

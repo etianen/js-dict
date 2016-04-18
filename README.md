@@ -91,12 +91,12 @@ function forEach<V>(dict: Dict<V>, sideEffect: (value?: V, key?: string, dict?: 
 ```
 
 
-### from()
+### fromEntries()
 
 Creates a new dict from an array of `[key, value]` entries.
 
 ``` ts
-function from<V>(entries: Array<[string, V]>): Dict<V>;
+function fromEntries<V>(entries: Array<[string, V]>): Dict<V>;
 ```
 
 

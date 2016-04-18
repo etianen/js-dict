@@ -56,7 +56,7 @@ export function forEach<V>(dict: Dict<V>, sideEffect: ValueCallback<V, void>, co
     }
 }
 
-export function from<V>(entries: Array<Entry<V>>): Dict<V> {
+export function fromEntries<V>(entries: Array<Entry<V>>): Dict<V> {
     const result: Dict<V> = {};
     for (const [key, value] of entries) {
         result[key] = value;
