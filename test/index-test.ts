@@ -1,15 +1,15 @@
 import {expect} from "chai";
-import {Dict, count, entries, every, filter, forEach, from, get, has, isEmpty, keys, map, mapValues, mapEntries, mapKeys, reduce, remove, set, some, update, values} from "../lib/index";
+import * as dict from "../lib/index";
 
 
 describe("dict", () => {
 
-    const foo: Dict<number> = {foo: 1};
+    const foo: dict.Dict<number> = {foo: 1};
 
     describe("count", () => {
 
         it("counts own enumerable properties", () => {
-            expect(count(foo)).to.equal(1);
+            expect(dict.count(foo)).to.equal(1);
         });
 
     });
@@ -17,7 +17,7 @@ describe("dict", () => {
     describe("entries", () => {
 
         it("returns an array of entries", () => {
-            expect(entries(foo)).to.eql([["foo", 1]]);
+            expect(dict.entries(foo)).to.eql([["foo", 1]]);
         });
 
     });
@@ -25,13 +25,13 @@ describe("dict", () => {
     describe("every", () => {
 
         it("returns true for an empty dict", () => {
-            expect(every({}, () => false)).to.be.true;
+            expect(dict.every({}, () => false)).to.be.true;
         });
 
         it("checks if every value passes a predicate", () => {
-            expect(every(
+            expect(dict.every(
                 foo,
-                function(value: number, key: string, dict: Dict<number>) {
+                function(value: number, key: string, dict: dict.Dict<number>) {
                     expect(this).to.equal("bar");
                     expect(value).to.equal(1);
                     expect(key).to.equal("foo");
@@ -40,8 +40,8 @@ describe("dict", () => {
                 },
                 "bar"
             )).to.be.true;
-            expect(every({foo: 1, bar: 2}, value => value >= 1)).to.be.true;
-            expect(every({foo: 1, bar: 2}, value => value < 2)).to.be.false;
+            expect(dict.every({foo: 1, bar: 2}, value => value >= 1)).to.be.true;
+            expect(dict.every({foo: 1, bar: 2}, value => value < 2)).to.be.false;
         });
 
     });
@@ -49,9 +49,9 @@ describe("dict", () => {
     describe("filter", () => {
 
         it("filters the dictect with a predicate", () => {
-            expect(filter(
+            expect(dict.filter(
                 foo,
-                function(value: number, key: string, dict: Dict<number>) {
+                function(value: number, key: string, dict: dict.Dict<number>) {
                     expect(this).to.equal("bar");
                     expect(value).to.equal(1);
                     expect(key).to.equal("foo");
@@ -60,7 +60,7 @@ describe("dict", () => {
                 },
                 "bar"
             )).to.eql({foo: 1});
-            expect(filter(foo, value => value === 2)).to.eql({});
+            expect(dict.filter(foo, value => value === 2)).to.eql({});
         });
 
     });
@@ -68,9 +68,9 @@ describe("dict", () => {
     describe("forEach", () => {
 
         it("runs side effect for each entry", () => {
-            forEach(
+            dict.forEach(
                 foo,
-                function(value: number, key: string, dict: Dict<number>) {
+                function(value: number, key: string, dict: dict.Dict<number>) {
                     expect(this).to.equal("bar");
                     expect(value).to.equal(1);
                     expect(key).to.equal("foo");
@@ -84,8 +84,24 @@ describe("dict", () => {
 
     describe("from", () => {
 
-        it("creates an dictect from an array of entries", () => {
-            expect(from([["foo", 1]])).to.eql(foo);
+        it("creates a dict from an array of entries", () => {
+            expect(dict.from([["foo", 1]])).to.eql(foo);
+        });
+
+    });
+
+    describe("fromKeys", () => {
+
+        it("creates a dict from an array of keys", () => {
+            expect(dict.fromKeys(
+                ["foo"],
+                function(key: string) {
+                    expect(this).to.equal("bar");
+                    expect(key).to.equal("foo");
+                    return key + "bar";
+                },
+                "bar"
+            )).to.eql({foo: "foobar"});
         });
 
     });
@@ -93,11 +109,11 @@ describe("dict", () => {
     describe("get", () => {
 
         it("gets own enumerable properties", () => {
-            expect(get(foo, "foo")).to.equal(1);
+            expect(dict.get(foo, "foo")).to.equal(1);
         });
 
         it("allows a default value to be given", () => {
-            expect(get(foo, "bar", 2)).to.equal(2);
+            expect(dict.get(foo, "bar", 2)).to.equal(2);
         });
 
     });
@@ -105,20 +121,20 @@ describe("dict", () => {
     describe("has", () => {
 
         it("checks own enumberable properties", () => {
-            expect(has(foo, "foo")).to.be.true;
+            expect(dict.has(foo, "foo")).to.be.true;
         });
 
         it("ignores inherited properties", () => {
-            expect(has(foo, "propertyIsEnumerable")).to.be.false;
+            expect(dict.has(foo, "propertyIsEnumerable")).to.be.false;
         });
 
     });
 
     describe("isEmpty", () => {
 
-        it("checks if an dictect is empty", () => {
-            expect(isEmpty(foo)).to.be.false;
-            expect(isEmpty({})).to.be.true;
+        it("checks if a dict is empty", () => {
+            expect(dict.isEmpty(foo)).to.be.false;
+            expect(dict.isEmpty({})).to.be.true;
         });
 
     });
@@ -126,7 +142,7 @@ describe("dict", () => {
     describe("keys", () => {
 
         it("returns an array of own enumerable properties", () => {
-            expect(keys(foo)).to.eql(["foo"]);
+            expect(dict.keys(foo)).to.eql(["foo"]);
         });
 
     });
@@ -134,9 +150,9 @@ describe("dict", () => {
     describe("map", () => {
 
         it("returns an array with entries mapped", () => {
-            const result: Array<string> = map(
+            const result: Array<string> = dict.map(
                 foo,
-                function(value: number, key: string, dict: Dict<number>) {
+                function(value: number, key: string, dict: dict.Dict<number>) {
                     expect(this).to.equal("bar");
                     expect(value).to.equal(1);
                     expect(key).to.equal("foo");
@@ -153,9 +169,9 @@ describe("dict", () => {
     describe("mapValues", () => {
 
         it("returns a new dictect with values mapped", () => {
-            const result: Dict<string> = mapValues(
+            const result: dict.Dict<string> = dict.mapValues(
                 foo,
-                function(value: number, key: string, dict: Dict<number>) {
+                function(value: number, key: string, dict: dict.Dict<number>) {
                     expect(this).to.equal("bar");
                     expect(value).to.equal(1);
                     expect(key).to.equal("foo");
@@ -172,9 +188,9 @@ describe("dict", () => {
     describe("mapEntries", () => {
 
         it("returns a new dictect with entries mapped", () => {
-            const result: Dict<string> = mapEntries(
+            const result: dict.Dict<string> = dict.mapEntries(
                 foo,
-                function(value: number, key: string, dict: Dict<number>) {
+                function(value: number, key: string, dict: dict.Dict<number>) {
                     expect(this).to.equal("bar");
                     expect(value).to.equal(1);
                     expect(key).to.equal("foo");
@@ -191,9 +207,9 @@ describe("dict", () => {
     describe("mapKeys", () => {
 
         it("returns a new dictect with entries mapped", () => {
-            const result: Dict<number> = mapKeys(
+            const result: dict.Dict<number> = dict.mapKeys(
                 foo,
-                function(key: string, value: number, dict: Dict<number>) {
+                function(key: string, value: number, dict: dict.Dict<number>) {
                     expect(this).to.equal("bar");
                     expect(value).to.equal(1);
                     expect(key).to.equal("foo");
@@ -209,10 +225,10 @@ describe("dict", () => {
 
     describe("reduce", () => {
 
-        it("reduces an dictect to a value", () => {
-            const result: string = reduce(
+        it("reduces a dict to a value", () => {
+            const result: string = dict.reduce(
                 foo,
-                function(reduction: string, value: number, key: string, dict: Dict<number>) {
+                function(reduction: string, value: number, key: string, dict: dict.Dict<number>) {
                     expect(this).to.equal("bar");
                     expect(value).to.equal(1);
                     expect(key).to.equal("foo");
@@ -226,7 +242,7 @@ describe("dict", () => {
         });
 
         it("allows a default initial reduction", () => {
-            expect(reduce({foo: 1,  bar: 2}, (total, value) => total + value)).to.equal(3);
+            expect(dict.reduce({foo: 1,  bar: 2}, (total, value) => total + value)).to.equal(3);
         });
 
     });
@@ -234,7 +250,7 @@ describe("dict", () => {
     describe("remove", () => {
 
         it("removes the value in a new dict", () => {
-            expect(remove(foo, "foo")).to.eql({});
+            expect(dict.remove(foo, "foo")).to.eql({});
         });
 
     });
@@ -242,7 +258,7 @@ describe("dict", () => {
     describe("set", () => {
 
         it("sets the value in a new dict", () => {
-            expect(set(foo, "foo", 99)).to.eql({foo: 99});
+            expect(dict.set(foo, "foo", 99)).to.eql({foo: 99});
         });
 
     });
@@ -250,13 +266,13 @@ describe("dict", () => {
     describe("some", () => {
 
         it("returns false for an empty dict", () => {
-            expect(some({}, () => true)).to.be.false;
+            expect(dict.some({}, () => true)).to.be.false;
         });
 
         it("checks if at least one value passes a predicate", () => {
-            expect(some(
+            expect(dict.some(
                 foo,
-                function(value: number, key: string, dict: Dict<number>) {
+                function(value: number, key: string, dict: dict.Dict<number>) {
                     expect(this).to.equal("bar");
                     expect(value).to.equal(1);
                     expect(key).to.equal("foo");
@@ -265,9 +281,9 @@ describe("dict", () => {
                 },
                 "bar"
             )).to.be.true;
-            expect(some({foo: 1, bar: 2}, value => value >= 1)).to.be.true;
-            expect(some({foo: 1, bar: 2}, value => value < 2)).to.be.true;
-            expect(some({foo: 1, bar: 2}, value => value < 1)).to.be.false;
+            expect(dict.some({foo: 1, bar: 2}, value => value >= 1)).to.be.true;
+            expect(dict.some({foo: 1, bar: 2}, value => value < 2)).to.be.true;
+            expect(dict.some({foo: 1, bar: 2}, value => value < 1)).to.be.false;
         });
 
     });
@@ -275,7 +291,7 @@ describe("dict", () => {
     describe("update", () => {
 
         it("returns a new dict with values updated", () => {
-            expect(update({foo: 2, bar: 2}, foo)).to.eql({foo: 1, bar: 2});
+            expect(dict.update({foo: 2, bar: 2}, foo)).to.eql({foo: 1, bar: 2});
         });
 
     });
@@ -283,7 +299,7 @@ describe("dict", () => {
     describe("values", () => {
 
         it("returns an array of values", () => {
-            expect(values(foo)).to.eql([1]);
+            expect(dict.values(foo)).to.eql([1]);
         });
 
     });

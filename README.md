@@ -100,6 +100,15 @@ function from<V>(entries: Array<[string, V]>): Dict<V>;
 ```
 
 
+### fromKeys()
+
+Creates a new dict from an array of keys, obtaining the values by passing each key through `mapper`.
+
+``` ts
+function fromKeys<V>(keys: Array<string>, mapper: (key?: string) => V, context?: Object): Dict<V>
+```
+
+
 ### get()
 
 Returns the value at `key` in `dict`, or `defaultValue` if the key is not set.
