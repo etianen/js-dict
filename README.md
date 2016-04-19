@@ -33,6 +33,7 @@ In all the functions below:
 
 * Only own, enumerable properties are considered.
 * The source arguments are never mutated.
+* If the return value is a `Dict` or `Array`, it is frozen.
 
 
 ### Dict

@@ -6,12 +6,10 @@
         "sourceMap": true,
         "moduleResolution": "node",
         "declaration": true,
-        "noFallthroughCasesInSwitch": true,
-        "noLib": true
+        "noFallthroughCasesInSwitch": true
     },
     "compileOnSave": false,
     "files": [
-        "node_modules/typescript/lib/lib.es6.d.ts",
         "typings/main.d.ts",
         "lib/index.ts",
         "test/index-test.ts"

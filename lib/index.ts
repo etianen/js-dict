@@ -7,6 +7,19 @@ export type KeyCallback<V, R> = (key?: string, value?: V, dict?: Dict<V>) => R;
 export type Entry<V> = [string, V];
 
 
+// Helpers.
+
+function assign<V>(result: Dict<V>, dict: Dict<V>): void {
+    for (const key in dict) {
+        if (Object.prototype.hasOwnProperty.call(dict, key)) {
+            result[key] = dict[key];
+        }
+    }
+}
+
+const EMPTY_DICT: Dict<any> = Object.freeze({});
+
+
 // API.
 
 export function count(dict: Dict<Object>): number {
@@ -19,11 +32,9 @@ export function count(dict: Dict<Object>): number {
     return n;
 }
 
-
 export function empty<V>(): Dict<V> {
-    return {};
+    return EMPTY_DICT;
 }
-
 
 export function entries<V>(dict: Dict<V>): Array<Entry<V>> {
     let result: Array<Entry<V>> = [];
@@ -32,7 +43,7 @@ export function entries<V>(dict: Dict<V>): Array<Entry<V>> {
             result.push([key, dict[key]]);
         }
     }
-    return result;
+    return Object.freeze(result);
 }
 
 export function every<V>(dict: Dict<V>, predicate: ValueCallback<V, boolean>, context?: Object): boolean {
@@ -51,7 +62,7 @@ export function filter<V>(dict: Dict<V>, predicate: ValueCallback<V, boolean>, c
             result[key] = dict[key];
         }
     }
-    return result;
+    return Object.freeze(result);
 }
 
 export function forEach<V>(dict: Dict<V>, sideEffect: ValueCallback<V, void>, context?: Object): void {
@@ -67,7 +78,7 @@ export function fromEntries<V>(entries: Array<Entry<V>>): Dict<V> {
     for (const [key, value] of entries) {
         result[key] = value;
     }
-    return result;
+    return Object.freeze(result);
 }
 
 export function fromKeys<V>(keys: Array<string>, mapper: (key?: string, index?: number, array?: Array<string>) => V, context?: Object): Dict<V> {
@@ -75,7 +86,7 @@ export function fromKeys<V>(keys: Array<string>, mapper: (key?: string, index?: 
     for (let n = 0, len = keys.length; n < len; n++) {
         result[keys[n]] = mapper.call(context, keys[n], n, keys);
     }
-    return result;
+    return Object.freeze(result);
 }
 
 export function get<V>(dict: Dict<V>, key: string, defaultValue?: V): V {
@@ -98,7 +109,9 @@ export function isEmpty(dict: Dict<Object>): boolean {
     return true;
 }
 
-export const keys = Object.keys;
+export function keys(dict: Dict<Object>): Array<string> {
+    return Object.freeze(Object.keys(dict));
+}
 
 export function map<V, R>(dict: Dict<V>, mapper: ValueCallback<V, R>, context?: Object): Array<R> {
     const result: Array<R> = [];
@@ -107,7 +120,7 @@ export function map<V, R>(dict: Dict<V>, mapper: ValueCallback<V, R>, context?: 
             result.push(mapper.call(context, dict[key], key, dict));
         }
     }
-    return result;
+    return Object.freeze(result);
 };
 
 export function mapEntries<V, R>(dict: Dict<V>, mapper: ValueCallback<V, Entry<R>>, context?: Object): Dict<R> {
@@ -118,7 +131,7 @@ export function mapEntries<V, R>(dict: Dict<V>, mapper: ValueCallback<V, Entry<R
             result[newKey] = newValue;
         }
     }
-    return result;
+    return Object.freeze(result);
 };
 
 export function mapKeys<V>(dict: Dict<V>, mapper: KeyCallback<V, string>, context?: Object): Dict<V> {
@@ -138,7 +151,7 @@ export function mapValues<V, R>(dict: Dict<V>, mapper: ValueCallback<V, R>, cont
             result[key] = mapper.call(context, dict[key], key, dict);
         }
     }
-    return result;
+    return Object.freeze(result);
 };
 
 export function reduce<V>(dict: Dict<V>, reducer: (reduction?: V, value?: V, key?: string, dict?: Dict<V>) => V): V;
@@ -164,19 +177,21 @@ export function reduce<V, R>(dict: Dict<V>, reducer: (reduction?: R, value?: V, 
             }
         }
     }
-    return result;
+    return Object.freeze(result);
 }
 
 export function remove<V>(dict: Dict<V>, key: string): Dict<V> {
-    const result: Dict<V> = Object.assign({}, dict);
+    const result: Dict<V> = {};
+    assign(result, dict);
     delete result[key];
-    return result;
+    return Object.freeze(result);
 }
 
 export function set<V>(dict: Dict<V>, key: string, value: V): Dict<V> {
-    const result: Dict<V> = Object.assign({}, dict);
+    const result: Dict<V> = {};
+    assign(result, dict);
     result[key] = value;
-    return result;
+    return Object.freeze(result);
 }
 
 export function some<V>(dict: Dict<V>, predicate: ValueCallback<V, boolean>, context?: Object): boolean {
@@ -189,7 +204,10 @@ export function some<V>(dict: Dict<V>, predicate: ValueCallback<V, boolean>, con
 };
 
 export function update<V>(dict: Dict<V>, other: Dict<V>): Dict<V> {
-    return Object.assign({}, dict, other);
+    const result: Dict<V> = {};
+    assign(result, dict);
+    assign(result, other);
+    return Object.freeze(result);
 }
 
 export function values<V>(dict: Dict<V>): Array<V> {
@@ -199,5 +217,5 @@ export function values<V>(dict: Dict<V>): Array<V> {
             result.push(dict[key]);
         }
     }
-    return result;
+    return Object.freeze(result);
 }
